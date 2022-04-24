@@ -41,7 +41,8 @@
       "fastify-plugin": "^3.0.1"
     },
     "peerDependencies": {
-      "fastify": "^3.28.0"
+      "fastify": "^3.28.0",
+      "awilix": "7.0.2"
     },
     "devDependencies": {
       "@types/jest": "27.4.1",
