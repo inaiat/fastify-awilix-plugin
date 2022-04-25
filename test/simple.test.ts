@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { asFunction } from 'awilix';
+import { asFunction, InjectionMode } from 'awilix';
 import { getConfiguredTestServer } from './helpers'
 import * as fastifyAwilixPlugin from '../src'
 
@@ -39,6 +39,7 @@ describe(`dependency injection tests`, () => {
       url: '/status',
     })
 
+    expect(server.diContainer.options.injectionMode).toEqual(InjectionMode.CLASSIC)
     expect(login.statusCode).toEqual(200)
   })
 

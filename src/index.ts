@@ -25,7 +25,7 @@ export const fastifyAwilixPlugin: FastifyPluginCallback<FastifyAwilixOptions> = 
     injectionMode: options.injectionMode ?? 'CLASSIC',
   })
 
-  diContainer.register(options)
+  diContainer.register(options.register)
 
   fastify.decorate('diContainer', diContainer)
   fastify.decorateRequest('diScope', null)
