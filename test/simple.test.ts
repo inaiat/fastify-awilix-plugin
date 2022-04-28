@@ -15,7 +15,7 @@ describe(`dependency injection tests`, () => {
   test('shoud d.i. and use printService on request', async () => {
 
     const dateService = () => new Date();
-    const printService = (dateService: Date) => dateService.toISOString()
+    const printService = ({dateService: Date}) => dateService().toDateString()
 
     const { server } = getConfiguredTestServer()
 
@@ -39,7 +39,7 @@ describe(`dependency injection tests`, () => {
       url: '/status',
     })
 
-    expect(server.diContainer.options.injectionMode).toEqual(InjectionMode.CLASSIC)
+    expect(server.diContainer.options.injectionMode).toEqual(InjectionMode.PROXY)
     expect(login.statusCode).toEqual(200)
   })
 

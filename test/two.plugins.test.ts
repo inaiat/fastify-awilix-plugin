@@ -36,14 +36,16 @@ describe(`dependency injection tests with two plugins`, () => {
       module: {
         dateService: asFunction(dateService).singleton(),
         printDate: asFunction(printService).singleton()
-      }
+      },
+      injectionMode: 'CLASSIC'
     })
 
     server.register(fastifyAwilixPlugin.default, {
       module: {
         colorService: asFunction(colorService).singleton(),
         printColor: asFunction(printColor).singleton()
-      }
+      },
+      injectionMode: 'CLASSIC'
     })
 
     server.get(
@@ -78,8 +80,6 @@ describe(`dependency injection tests with two plugins`, () => {
     await server.close()
 
   })
-
-
 
 })
 
