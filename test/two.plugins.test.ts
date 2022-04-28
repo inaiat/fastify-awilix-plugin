@@ -82,4 +82,3 @@ describe(`dependency injection tests with two plugins`, () => {
   })
 
 })
-

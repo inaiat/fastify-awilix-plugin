@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { asFunction, InjectionMode } from 'awilix';
+import { asFunction, InjectionMode } from 'awilix'
 import { getConfiguredTestServer } from './helpers'
 import * as fastifyAwilixPlugin from '../src'
 
