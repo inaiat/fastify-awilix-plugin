@@ -54,4 +54,4 @@ export const fastifyAwilixPlugin: FastifyPluginCallback<FastifyAwilixOptions> = 
   done()
 }
 
-export default fp(fastifyAwilixPlugin, { fastify: '3.x', name: 'fastifyDi' })
+export default fp(fastifyAwilixPlugin, { fastify: '3.x', name: 'fastify-awilix-plugin' })
