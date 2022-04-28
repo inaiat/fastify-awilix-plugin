@@ -6,7 +6,7 @@ import * as fastifyAwilixPlugin from '../src'
 declare module '../src/index' {
   interface Cradle {
     dateService: Date
-    printService: string
+    printDate: string
   }
 }
 
@@ -20,9 +20,9 @@ describe(`dependency injection tests`, () => {
     const { server } = getConfiguredTestServer()
 
     server.register(fastifyAwilixPlugin.default, {
-      register: {
+      module: {
         dateService: asFunction(dateService).singleton(),
-        printService: asFunction(printService).singleton()
+        printDate: asFunction(printService).singleton()
       }
     })
 
@@ -30,7 +30,7 @@ describe(`dependency injection tests`, () => {
       '/status',
       async (request) => {
         const cradle = request.diScope.cradle
-        return cradle.printService
+        return cradle.printDate
       }
     )
 
