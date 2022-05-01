@@ -1,20 +1,20 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { asFunction } from 'awilix';
+import { fastifyAwilixPlugin } from '../src';
 import { getConfiguredTestServer } from './helpers'
-import * as fastifyAwilixPlugin from '../src'
 
 enum Colors {
   RED, BLUE, GREEN
 }
 
-declare module '../src/index' {
+declare module '../src' {
   interface Cradle {
     dateService: Date
     printDate: string
   }
 }
 
-declare module '../src/index' {
+declare module '../src' {
   interface Cradle {
     colorService: Colors
     printColor: string
@@ -32,7 +32,7 @@ describe(`dependency injection tests with two plugins`, () => {
 
     const { server } = getConfiguredTestServer()
 
-    server.register(fastifyAwilixPlugin.default, {
+    server.register(fastifyAwilixPlugin, {
       module: {
         dateService: asFunction(dateService).singleton(),
         printDate: asFunction(printService).singleton()
@@ -40,7 +40,7 @@ describe(`dependency injection tests with two plugins`, () => {
       injectionMode: 'CLASSIC'
     })
 
-    server.register(fastifyAwilixPlugin.default, {
+    server.register(fastifyAwilixPlugin, {
       module: {
         colorService: asFunction(colorService).singleton(),
         printColor: asFunction(printColor).singleton()

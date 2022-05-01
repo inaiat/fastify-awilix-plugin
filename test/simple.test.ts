@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { asFunction, InjectionMode } from 'awilix'
+import { FastifyAwilix } from '../src';
 import { getConfiguredTestServer } from './helpers'
-import * as fastifyAwilixPlugin from '../src'
 
 declare module '../src/index' {
   interface Cradle {
@@ -19,7 +19,7 @@ describe(`dependency injection tests`, () => {
 
     const { server } = getConfiguredTestServer()
 
-    const container = fastifyAwilixPlugin.create(server)
+    const container = new FastifyAwilix(server)
 
     container.register({
         dateService: asFunction(dateService).singleton(),
