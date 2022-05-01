@@ -19,11 +19,11 @@ describe(`dependency injection tests`, () => {
 
     const { server } = getConfiguredTestServer()
 
-    server.register(fastifyAwilixPlugin.default, {
-      module: {
+    const container = fastifyAwilixPlugin.create(server)
+
+    container.register({
         dateService: asFunction(dateService).singleton(),
         printDate: asFunction(printService).singleton()
-      }
     })
 
     server.get(

@@ -12,6 +12,7 @@ module.exports = {
   ],
   rules: {
     "functional/no-method-signature": "off",
-    "@typescript-eslint/prefer-readonly-parameter-types": "off"
+    "@typescript-eslint/prefer-readonly-parameter-types": "off",
+    "@typescript-eslint/no-floating-promises": "error",
   }
 };

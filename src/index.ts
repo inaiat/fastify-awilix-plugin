@@ -1,9 +1,14 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
+import './type-extensions'
 import { AwilixContainer, createContainer, InjectionModeType, NameAndRegistrationPair } from 'awilix'
 import { FastifyInstance, FastifyPluginCallback } from 'fastify'
 import fp from 'fastify-plugin'
 
 export interface Cradle {}
+
+export type DiContainer = AwilixContainer<Cradle>
+
+export type DiModule = NameAndRegistrationPair<Cradle>
 
 const defaultInjectionMode: InjectionModeType = 'PROXY'
 
@@ -12,23 +17,31 @@ const defaultContainer = (injectionMode: InjectionModeType) =>
     injectionMode,
   })
 
-declare module 'fastify' {
-  interface FastifyRequest {
-    diScope: AwilixContainer<Cradle>
-  }
-
-  interface FastifyInstance {
-    diContainer: AwilixContainer<Cradle>
-  }
-}
-
 export type FastifyAwilixOptions = {
-  module: NameAndRegistrationPair<Cradle>
+  module: DiModule
   injectionMode?: InjectionModeType
-  container?: AwilixContainer<Cradle>
+  container?: DiContainer
 }
 
-const decorateFastify = (fastify: FastifyInstance, diContainer: AwilixContainer<Cradle>) => {
+export const create = (
+  fastify: FastifyInstance,
+  injectionMode: InjectionModeType = defaultInjectionMode,
+  container: DiContainer = defaultContainer(injectionMode)
+) => {
+  if (fastify.diContainer) {
+    fastify.log.warn('Fastify awilix plugin already decorated')
+  } else {
+    decorateFastify(fastify, container)
+  }
+
+  return {
+    register: (module: DiModule) => {
+      fastify.diContainer.register(module)
+    },
+  }
+}
+
+const decorateFastify = (fastify: FastifyInstance, diContainer: DiContainer) => {
   fastify.decorate('diContainer', diContainer)
   fastify.decorateRequest('diScope', null)
 
@@ -38,11 +51,11 @@ const decorateFastify = (fastify: FastifyInstance, diContainer: AwilixContainer<
   })
 
   fastify.addHook('onResponse', (request, reply, done) => {
-    request.diScope.dispose().then(() => done())
+    void request.diScope.dispose().then(() => done())
   })
 
   fastify.addHook('onClose', (instance, done) => {
-    instance.diContainer.dispose().then(() => done())
+    void instance.diContainer.dispose().then(() => done())
   })
 }
 

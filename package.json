@@ -1,6 +1,6 @@
 {
   "name": "@inaiat/fastify-awilix-plugin",
-  "version": "0.0.5",
+  "version": "0.0.9",
   "description": "Simple, unobtrusive depency injection for fastify.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
